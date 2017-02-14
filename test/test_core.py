@@ -7,7 +7,7 @@ import numpy as np
 from benchmarker import Benchmarker
 
 class TestFasterNumpy(unittest.TestCase):
-    def test_cython_shift(self):
+    def test_shift(self):
         a = np.arange(10.0)
         faster_numpy.cython.shift(a, 1)
         for x in np.arange(9.0):
@@ -16,18 +16,31 @@ class TestFasterNumpy(unittest.TestCase):
         faster_numpy.cython.shift(a, -1)
         for x in np.arange(9.0):
             self.assertEqual(x, a[int(x)+1])
+        a = np.arange(10.0)
+        faster_numpy.clibrary.shift(a, 1)
+        for x in np.arange(9.0):
+            self.assertEqual(x+1, a[int(x)])
+        a = np.arange(10.0)
+        faster_numpy.clibrary.shift(a, -1)
+        for x in np.arange(9.0):
+            self.assertEqual(x, a[int(x)+1])
             
-        a = np.arange(1000.0)
-#        with Benchmarker(10000, width=20) as bench:
-#            @bench("numpy.roll")
-#            def _(bm):
-#                for i in bm:
-#                    np.roll(a, 1)
-#
-#            @bench("faster_numpy.shift")
-#            def _(bm):
-#                for i in bm:
-#                    faster_numpy.cython.shift(a, 1)
+        a = np.arange(100000.0)
+        with Benchmarker(10000, width=40) as bench:
+            @bench("numpy.roll")
+            def _(bm):
+                for i in bm:
+                    np.roll(a, 1)
+
+            @bench("faster_numpy.cython.shift")
+            def _(bm):
+                for i in bm:
+                    faster_numpy.cython.shift(a, 1)
+                    
+            @bench("faster_numpy.clibrary.shift")
+            def _(bm):
+                for i in bm:
+                    faster_numpy.clibrary.shift(a, 1)
                     
     def test_mean(self):
         a = np.arange(10.0)
@@ -56,11 +69,22 @@ class TestFasterNumpy(unittest.TestCase):
                 for i in bm:
                     faster_numpy.clibrary.mean(a[0:999])
     
-    def test_cython_std(self):
-        pass
+    def test_std(self):
+        a = np.arange(1000.0)
+        b = np.arange(1000.0, 2000.0)
+        with Benchmarker(100000, width=50) as bench:
+            @bench("faster_numpy.cython.std")
+            def _(bm):
+                for i in bm:
+                    faster_numpy.cython.std(a, b)
+                    
+            @bench("faster_numpy.clibrary.std")
+            def _(bm):
+                for i in bm:
+                    faster_numpy.clibrary.std(a, b)
 
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestFasterNumpy('test_mean'))
+    suite.addTest(TestFasterNumpy('test_std'))
     unittest.TextTestRunner(verbosity=2).run(suite)

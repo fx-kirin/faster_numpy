@@ -1,5 +1,6 @@
 import numpy as np
 cimport numpy as np
+from libc.math cimport sqrt, pow
 from libc.string cimport memmove
 
 cpdef void shift(np.ndarray[double, ndim=1, mode="c"] np_array, int value):
@@ -26,12 +27,8 @@ cpdef double mean(np.ndarray[double, ndim=1, mode="c"] np_array):
 cpdef double std(np.ndarray[double, ndim=1, mode="c"] np_actual, np.ndarray[double, ndim=1, mode="c"] np_target):
     cdef int array_size1, array_size2
     cdef double sum_ = 0
-    cdef double result
     array_size1 = np_actual.shape[0]
-    array_size2 = np_target.shape[0]
     for x in range(array_size1):
-        sum_ += (np_actual[x] - np_target[x])**2
+        sum_ += pow(np_actual[x] - np_target[x], 2)
         
-    result = sum_ / array_size1
-        
-    return result
+    return sqrt(sum_ / array_size1)

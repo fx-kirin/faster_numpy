@@ -443,6 +443,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <stdlib.h>
 #include "numpy/arrayobject.h"
 #include "numpy/ufuncobject.h"
+#include <math.h>
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -1376,6 +1377,8 @@ static PyTypeObject *__pyx_ptype_5numpy_ndarray = 0;
 static PyTypeObject *__pyx_ptype_5numpy_ufunc = 0;
 static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, char *, char *, int *); /*proto*/
 
+/* Module declarations from 'libc.math' */
+
 /* Module declarations from 'faster_numpy.cython' */
 static void __pyx_f_12faster_numpy_6cython_shift(PyArrayObject *, int, int __pyx_skip_dispatch); /*proto*/
 static double __pyx_f_12faster_numpy_6cython_mean(PyArrayObject *, int __pyx_skip_dispatch); /*proto*/
@@ -1446,7 +1449,7 @@ static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
 
-/* "faster_numpy/cython.pyx":5
+/* "faster_numpy/cython.pyx":6
  * from libc.string cimport memmove
  * 
  * cpdef void shift(np.ndarray[double, ndim=1, mode="c"] np_array, int value):             # <<<<<<<<<<<<<<
@@ -1473,11 +1476,11 @@ static void __pyx_f_12faster_numpy_6cython_shift(PyArrayObject *__pyx_v_np_array
   __pyx_pybuffernd_np_array.rcbuffer = &__pyx_pybuffer_np_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_array, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 5, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_array, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 6, __pyx_L1_error)
   }
   __pyx_pybuffernd_np_array.diminfo[0].strides = __pyx_pybuffernd_np_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_np_array.diminfo[0].shape = __pyx_pybuffernd_np_array.rcbuffer->pybuffer.shape[0];
 
-  /* "faster_numpy/cython.pyx":7
+  /* "faster_numpy/cython.pyx":8
  * cpdef void shift(np.ndarray[double, ndim=1, mode="c"] np_array, int value):
  *     cdef int array_size
  *     array_size = np_array.shape[0]             # <<<<<<<<<<<<<<
@@ -1486,7 +1489,7 @@ static void __pyx_f_12faster_numpy_6cython_shift(PyArrayObject *__pyx_v_np_array
  */
   __pyx_v_array_size = (__pyx_v_np_array->dimensions[0]);
 
-  /* "faster_numpy/cython.pyx":8
+  /* "faster_numpy/cython.pyx":9
  *     cdef int array_size
  *     array_size = np_array.shape[0]
  *     if(value >= 0):             # <<<<<<<<<<<<<<
@@ -1496,7 +1499,7 @@ static void __pyx_f_12faster_numpy_6cython_shift(PyArrayObject *__pyx_v_np_array
   __pyx_t_1 = ((__pyx_v_value >= 0) != 0);
   if (__pyx_t_1) {
 
-    /* "faster_numpy/cython.pyx":9
+    /* "faster_numpy/cython.pyx":10
  *     array_size = np_array.shape[0]
  *     if(value >= 0):
  *         memmove(&np_array[0], &np_array[value], (array_size-value) *sizeof(double))             # <<<<<<<<<<<<<<
@@ -1511,7 +1514,7 @@ static void __pyx_f_12faster_numpy_6cython_shift(PyArrayObject *__pyx_v_np_array
     } else if (unlikely(__pyx_t_2 >= __pyx_pybuffernd_np_array.diminfo[0].shape)) __pyx_t_3 = 0;
     if (unlikely(__pyx_t_3 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_3);
-      __PYX_ERR(0, 9, __pyx_L1_error)
+      __PYX_ERR(0, 10, __pyx_L1_error)
     }
     __pyx_t_4 = __pyx_v_value;
     __pyx_t_3 = -1;
@@ -1521,11 +1524,11 @@ static void __pyx_f_12faster_numpy_6cython_shift(PyArrayObject *__pyx_v_np_array
     } else if (unlikely(__pyx_t_4 >= __pyx_pybuffernd_np_array.diminfo[0].shape)) __pyx_t_3 = 0;
     if (unlikely(__pyx_t_3 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_3);
-      __PYX_ERR(0, 9, __pyx_L1_error)
+      __PYX_ERR(0, 10, __pyx_L1_error)
     }
     memmove((&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_np_array.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_np_array.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_np_array.rcbuffer->pybuffer.buf, __pyx_t_4, __pyx_pybuffernd_np_array.diminfo[0].strides))), ((__pyx_v_array_size - __pyx_v_value) * (sizeof(double))));
 
-    /* "faster_numpy/cython.pyx":8
+    /* "faster_numpy/cython.pyx":9
  *     cdef int array_size
  *     array_size = np_array.shape[0]
  *     if(value >= 0):             # <<<<<<<<<<<<<<
@@ -1535,7 +1538,7 @@ static void __pyx_f_12faster_numpy_6cython_shift(PyArrayObject *__pyx_v_np_array
     goto __pyx_L3;
   }
 
-  /* "faster_numpy/cython.pyx":11
+  /* "faster_numpy/cython.pyx":12
  *         memmove(&np_array[0], &np_array[value], (array_size-value) *sizeof(double))
  *     else:
  *         memmove(&np_array[-value], &np_array[0], (array_size-value) *sizeof(double))             # <<<<<<<<<<<<<<
@@ -1551,7 +1554,7 @@ static void __pyx_f_12faster_numpy_6cython_shift(PyArrayObject *__pyx_v_np_array
     } else if (unlikely(__pyx_t_5 >= __pyx_pybuffernd_np_array.diminfo[0].shape)) __pyx_t_3 = 0;
     if (unlikely(__pyx_t_3 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_3);
-      __PYX_ERR(0, 11, __pyx_L1_error)
+      __PYX_ERR(0, 12, __pyx_L1_error)
     }
     __pyx_t_6 = 0;
     __pyx_t_3 = -1;
@@ -1561,13 +1564,13 @@ static void __pyx_f_12faster_numpy_6cython_shift(PyArrayObject *__pyx_v_np_array
     } else if (unlikely(__pyx_t_6 >= __pyx_pybuffernd_np_array.diminfo[0].shape)) __pyx_t_3 = 0;
     if (unlikely(__pyx_t_3 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_3);
-      __PYX_ERR(0, 11, __pyx_L1_error)
+      __PYX_ERR(0, 12, __pyx_L1_error)
     }
     memmove((&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_np_array.rcbuffer->pybuffer.buf, __pyx_t_5, __pyx_pybuffernd_np_array.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_np_array.rcbuffer->pybuffer.buf, __pyx_t_6, __pyx_pybuffernd_np_array.diminfo[0].strides))), ((__pyx_v_array_size - __pyx_v_value) * (sizeof(double))));
   }
   __pyx_L3:;
 
-  /* "faster_numpy/cython.pyx":12
+  /* "faster_numpy/cython.pyx":13
  *     else:
  *         memmove(&np_array[-value], &np_array[0], (array_size-value) *sizeof(double))
  *     return             # <<<<<<<<<<<<<<
@@ -1576,7 +1579,7 @@ static void __pyx_f_12faster_numpy_6cython_shift(PyArrayObject *__pyx_v_np_array
  */
   goto __pyx_L0;
 
-  /* "faster_numpy/cython.pyx":5
+  /* "faster_numpy/cython.pyx":6
  * from libc.string cimport memmove
  * 
  * cpdef void shift(np.ndarray[double, ndim=1, mode="c"] np_array, int value):             # <<<<<<<<<<<<<<
@@ -1628,11 +1631,11 @@ static PyObject *__pyx_pw_12faster_numpy_6cython_1shift(PyObject *__pyx_self, Py
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_value)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("shift", 1, 2, 2, 1); __PYX_ERR(0, 5, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("shift", 1, 2, 2, 1); __PYX_ERR(0, 6, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "shift") < 0)) __PYX_ERR(0, 5, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "shift") < 0)) __PYX_ERR(0, 6, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1641,17 +1644,17 @@ static PyObject *__pyx_pw_12faster_numpy_6cython_1shift(PyObject *__pyx_self, Py
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
     __pyx_v_np_array = ((PyArrayObject *)values[0]);
-    __pyx_v_value = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_value == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 5, __pyx_L3_error)
+    __pyx_v_value = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_value == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 6, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("shift", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 5, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("shift", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 6, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("faster_numpy.cython.shift", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_np_array), __pyx_ptype_5numpy_ndarray, 1, "np_array", 0))) __PYX_ERR(0, 5, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_np_array), __pyx_ptype_5numpy_ndarray, 1, "np_array", 0))) __PYX_ERR(0, 6, __pyx_L1_error)
   __pyx_r = __pyx_pf_12faster_numpy_6cython_shift(__pyx_self, __pyx_v_np_array, __pyx_v_value);
 
   /* function exit code */
@@ -1676,11 +1679,11 @@ static PyObject *__pyx_pf_12faster_numpy_6cython_shift(CYTHON_UNUSED PyObject *_
   __pyx_pybuffernd_np_array.rcbuffer = &__pyx_pybuffer_np_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_array, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 5, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_array, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 6, __pyx_L1_error)
   }
   __pyx_pybuffernd_np_array.diminfo[0].strides = __pyx_pybuffernd_np_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_np_array.diminfo[0].shape = __pyx_pybuffernd_np_array.rcbuffer->pybuffer.shape[0];
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_12faster_numpy_6cython_shift(__pyx_v_np_array, __pyx_v_value, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_12faster_numpy_6cython_shift(__pyx_v_np_array, __pyx_v_value, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1706,7 +1709,7 @@ static PyObject *__pyx_pf_12faster_numpy_6cython_shift(CYTHON_UNUSED PyObject *_
   return __pyx_r;
 }
 
-/* "faster_numpy/cython.pyx":14
+/* "faster_numpy/cython.pyx":15
  *     return
  * 
  * cpdef double mean(np.ndarray[double, ndim=1, mode="c"] np_array):             # <<<<<<<<<<<<<<
@@ -1735,11 +1738,11 @@ static double __pyx_f_12faster_numpy_6cython_mean(PyArrayObject *__pyx_v_np_arra
   __pyx_pybuffernd_np_array.rcbuffer = &__pyx_pybuffer_np_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_array, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 14, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_array, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 15, __pyx_L1_error)
   }
   __pyx_pybuffernd_np_array.diminfo[0].strides = __pyx_pybuffernd_np_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_np_array.diminfo[0].shape = __pyx_pybuffernd_np_array.rcbuffer->pybuffer.shape[0];
 
-  /* "faster_numpy/cython.pyx":16
+  /* "faster_numpy/cython.pyx":17
  * cpdef double mean(np.ndarray[double, ndim=1, mode="c"] np_array):
  *     cdef int array_size
  *     cdef double sum_ = 0             # <<<<<<<<<<<<<<
@@ -1748,7 +1751,7 @@ static double __pyx_f_12faster_numpy_6cython_mean(PyArrayObject *__pyx_v_np_arra
  */
   __pyx_v_sum_ = 0.0;
 
-  /* "faster_numpy/cython.pyx":18
+  /* "faster_numpy/cython.pyx":19
  *     cdef double sum_ = 0
  *     cdef double result
  *     array_size = np_array.shape[0]             # <<<<<<<<<<<<<<
@@ -1757,7 +1760,7 @@ static double __pyx_f_12faster_numpy_6cython_mean(PyArrayObject *__pyx_v_np_arra
  */
   __pyx_v_array_size = (__pyx_v_np_array->dimensions[0]);
 
-  /* "faster_numpy/cython.pyx":19
+  /* "faster_numpy/cython.pyx":20
  *     cdef double result
  *     array_size = np_array.shape[0]
  *     for x in range(array_size):             # <<<<<<<<<<<<<<
@@ -1768,7 +1771,7 @@ static double __pyx_f_12faster_numpy_6cython_mean(PyArrayObject *__pyx_v_np_arra
   for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
     __pyx_v_x = __pyx_t_2;
 
-    /* "faster_numpy/cython.pyx":20
+    /* "faster_numpy/cython.pyx":21
  *     array_size = np_array.shape[0]
  *     for x in range(array_size):
  *         sum_ += np_array[x]             # <<<<<<<<<<<<<<
@@ -1783,12 +1786,12 @@ static double __pyx_f_12faster_numpy_6cython_mean(PyArrayObject *__pyx_v_np_arra
     } else if (unlikely(__pyx_t_3 >= __pyx_pybuffernd_np_array.diminfo[0].shape)) __pyx_t_4 = 0;
     if (unlikely(__pyx_t_4 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_4);
-      __PYX_ERR(0, 20, __pyx_L1_error)
+      __PYX_ERR(0, 21, __pyx_L1_error)
     }
     __pyx_v_sum_ = (__pyx_v_sum_ + (*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_np_array.rcbuffer->pybuffer.buf, __pyx_t_3, __pyx_pybuffernd_np_array.diminfo[0].strides)));
   }
 
-  /* "faster_numpy/cython.pyx":22
+  /* "faster_numpy/cython.pyx":23
  *         sum_ += np_array[x]
  * 
  *     result = sum_ / array_size             # <<<<<<<<<<<<<<
@@ -1797,11 +1800,11 @@ static double __pyx_f_12faster_numpy_6cython_mean(PyArrayObject *__pyx_v_np_arra
  */
   if (unlikely(__pyx_v_array_size == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 22, __pyx_L1_error)
+    __PYX_ERR(0, 23, __pyx_L1_error)
   }
   __pyx_v_result = (__pyx_v_sum_ / __pyx_v_array_size);
 
-  /* "faster_numpy/cython.pyx":24
+  /* "faster_numpy/cython.pyx":25
  *     result = sum_ / array_size
  * 
  *     return result             # <<<<<<<<<<<<<<
@@ -1811,7 +1814,7 @@ static double __pyx_f_12faster_numpy_6cython_mean(PyArrayObject *__pyx_v_np_arra
   __pyx_r = __pyx_v_result;
   goto __pyx_L0;
 
-  /* "faster_numpy/cython.pyx":14
+  /* "faster_numpy/cython.pyx":15
  *     return
  * 
  * cpdef double mean(np.ndarray[double, ndim=1, mode="c"] np_array):             # <<<<<<<<<<<<<<
@@ -1843,7 +1846,7 @@ static PyObject *__pyx_pw_12faster_numpy_6cython_3mean(PyObject *__pyx_self, PyO
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("mean (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_np_array), __pyx_ptype_5numpy_ndarray, 1, "np_array", 0))) __PYX_ERR(0, 14, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_np_array), __pyx_ptype_5numpy_ndarray, 1, "np_array", 0))) __PYX_ERR(0, 15, __pyx_L1_error)
   __pyx_r = __pyx_pf_12faster_numpy_6cython_2mean(__pyx_self, ((PyArrayObject *)__pyx_v_np_array));
 
   /* function exit code */
@@ -1868,11 +1871,11 @@ static PyObject *__pyx_pf_12faster_numpy_6cython_2mean(CYTHON_UNUSED PyObject *_
   __pyx_pybuffernd_np_array.rcbuffer = &__pyx_pybuffer_np_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_array, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 14, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_array, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 15, __pyx_L1_error)
   }
   __pyx_pybuffernd_np_array.diminfo[0].strides = __pyx_pybuffernd_np_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_np_array.diminfo[0].shape = __pyx_pybuffernd_np_array.rcbuffer->pybuffer.shape[0];
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_12faster_numpy_6cython_mean(__pyx_v_np_array, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_12faster_numpy_6cython_mean(__pyx_v_np_array, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1898,7 +1901,7 @@ static PyObject *__pyx_pf_12faster_numpy_6cython_2mean(CYTHON_UNUSED PyObject *_
   return __pyx_r;
 }
 
-/* "faster_numpy/cython.pyx":26
+/* "faster_numpy/cython.pyx":27
  *     return result
  * 
  * cpdef double std(np.ndarray[double, ndim=1, mode="c"] np_actual, np.ndarray[double, ndim=1, mode="c"] np_target):             # <<<<<<<<<<<<<<
@@ -1909,9 +1912,7 @@ static PyObject *__pyx_pf_12faster_numpy_6cython_2mean(CYTHON_UNUSED PyObject *_
 static PyObject *__pyx_pw_12faster_numpy_6cython_5std(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static double __pyx_f_12faster_numpy_6cython_std(PyArrayObject *__pyx_v_np_actual, PyArrayObject *__pyx_v_np_target, CYTHON_UNUSED int __pyx_skip_dispatch) {
   int __pyx_v_array_size1;
-  CYTHON_UNUSED int __pyx_v_array_size2;
   double __pyx_v_sum_;
-  double __pyx_v_result;
   int __pyx_v_x;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_np_actual;
   __Pyx_Buffer __pyx_pybuffer_np_actual;
@@ -1935,59 +1936,50 @@ static double __pyx_f_12faster_numpy_6cython_std(PyArrayObject *__pyx_v_np_actua
   __pyx_pybuffernd_np_target.rcbuffer = &__pyx_pybuffer_np_target;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_actual.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_actual, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 26, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_actual.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_actual, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 27, __pyx_L1_error)
   }
   __pyx_pybuffernd_np_actual.diminfo[0].strides = __pyx_pybuffernd_np_actual.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_np_actual.diminfo[0].shape = __pyx_pybuffernd_np_actual.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_target.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_target, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 26, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_target.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_target, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 27, __pyx_L1_error)
   }
   __pyx_pybuffernd_np_target.diminfo[0].strides = __pyx_pybuffernd_np_target.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_np_target.diminfo[0].shape = __pyx_pybuffernd_np_target.rcbuffer->pybuffer.shape[0];
 
-  /* "faster_numpy/cython.pyx":28
+  /* "faster_numpy/cython.pyx":29
  * cpdef double std(np.ndarray[double, ndim=1, mode="c"] np_actual, np.ndarray[double, ndim=1, mode="c"] np_target):
  *     cdef int array_size1, array_size2
  *     cdef double sum_ = 0             # <<<<<<<<<<<<<<
- *     cdef double result
  *     array_size1 = np_actual.shape[0]
+ *     for x in range(array_size1):
  */
   __pyx_v_sum_ = 0.0;
 
   /* "faster_numpy/cython.pyx":30
+ *     cdef int array_size1, array_size2
  *     cdef double sum_ = 0
- *     cdef double result
  *     array_size1 = np_actual.shape[0]             # <<<<<<<<<<<<<<
- *     array_size2 = np_target.shape[0]
  *     for x in range(array_size1):
+ *         sum_ += pow(np_actual[x] - np_target[x], 2)
  */
   __pyx_v_array_size1 = (__pyx_v_np_actual->dimensions[0]);
 
   /* "faster_numpy/cython.pyx":31
- *     cdef double result
+ *     cdef double sum_ = 0
  *     array_size1 = np_actual.shape[0]
- *     array_size2 = np_target.shape[0]             # <<<<<<<<<<<<<<
- *     for x in range(array_size1):
- *         sum_ += (np_actual[x] - np_target[x])**2
- */
-  __pyx_v_array_size2 = (__pyx_v_np_target->dimensions[0]);
-
-  /* "faster_numpy/cython.pyx":32
- *     array_size1 = np_actual.shape[0]
- *     array_size2 = np_target.shape[0]
  *     for x in range(array_size1):             # <<<<<<<<<<<<<<
- *         sum_ += (np_actual[x] - np_target[x])**2
+ *         sum_ += pow(np_actual[x] - np_target[x], 2)
  * 
  */
   __pyx_t_1 = __pyx_v_array_size1;
   for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
     __pyx_v_x = __pyx_t_2;
 
-    /* "faster_numpy/cython.pyx":33
- *     array_size2 = np_target.shape[0]
+    /* "faster_numpy/cython.pyx":32
+ *     array_size1 = np_actual.shape[0]
  *     for x in range(array_size1):
- *         sum_ += (np_actual[x] - np_target[x])**2             # <<<<<<<<<<<<<<
+ *         sum_ += pow(np_actual[x] - np_target[x], 2)             # <<<<<<<<<<<<<<
  * 
- *     result = sum_ / array_size1
+ *     return sqrt(sum_ / array_size1)
  */
     __pyx_t_3 = __pyx_v_x;
     __pyx_t_4 = -1;
@@ -1997,7 +1989,7 @@ static double __pyx_f_12faster_numpy_6cython_std(PyArrayObject *__pyx_v_np_actua
     } else if (unlikely(__pyx_t_3 >= __pyx_pybuffernd_np_actual.diminfo[0].shape)) __pyx_t_4 = 0;
     if (unlikely(__pyx_t_4 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_4);
-      __PYX_ERR(0, 33, __pyx_L1_error)
+      __PYX_ERR(0, 32, __pyx_L1_error)
     }
     __pyx_t_5 = __pyx_v_x;
     __pyx_t_4 = -1;
@@ -2007,33 +1999,24 @@ static double __pyx_f_12faster_numpy_6cython_std(PyArrayObject *__pyx_v_np_actua
     } else if (unlikely(__pyx_t_5 >= __pyx_pybuffernd_np_target.diminfo[0].shape)) __pyx_t_4 = 0;
     if (unlikely(__pyx_t_4 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_4);
-      __PYX_ERR(0, 33, __pyx_L1_error)
+      __PYX_ERR(0, 32, __pyx_L1_error)
     }
     __pyx_v_sum_ = (__pyx_v_sum_ + pow(((*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_np_actual.rcbuffer->pybuffer.buf, __pyx_t_3, __pyx_pybuffernd_np_actual.diminfo[0].strides)) - (*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_np_target.rcbuffer->pybuffer.buf, __pyx_t_5, __pyx_pybuffernd_np_target.diminfo[0].strides))), 2.0));
   }
 
-  /* "faster_numpy/cython.pyx":35
- *         sum_ += (np_actual[x] - np_target[x])**2
+  /* "faster_numpy/cython.pyx":34
+ *         sum_ += pow(np_actual[x] - np_target[x], 2)
  * 
- *     result = sum_ / array_size1             # <<<<<<<<<<<<<<
- * 
- *     return result
+ *     return sqrt(sum_ / array_size1)             # <<<<<<<<<<<<<<
  */
   if (unlikely(__pyx_v_array_size1 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 35, __pyx_L1_error)
+    __PYX_ERR(0, 34, __pyx_L1_error)
   }
-  __pyx_v_result = (__pyx_v_sum_ / __pyx_v_array_size1);
-
-  /* "faster_numpy/cython.pyx":37
- *     result = sum_ / array_size1
- * 
- *     return result             # <<<<<<<<<<<<<<
- */
-  __pyx_r = __pyx_v_result;
+  __pyx_r = sqrt((__pyx_v_sum_ / __pyx_v_array_size1));
   goto __pyx_L0;
 
-  /* "faster_numpy/cython.pyx":26
+  /* "faster_numpy/cython.pyx":27
  *     return result
  * 
  * cpdef double std(np.ndarray[double, ndim=1, mode="c"] np_actual, np.ndarray[double, ndim=1, mode="c"] np_target):             # <<<<<<<<<<<<<<
@@ -2089,11 +2072,11 @@ static PyObject *__pyx_pw_12faster_numpy_6cython_5std(PyObject *__pyx_self, PyOb
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_np_target)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("std", 1, 2, 2, 1); __PYX_ERR(0, 26, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("std", 1, 2, 2, 1); __PYX_ERR(0, 27, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "std") < 0)) __PYX_ERR(0, 26, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "std") < 0)) __PYX_ERR(0, 27, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2106,14 +2089,14 @@ static PyObject *__pyx_pw_12faster_numpy_6cython_5std(PyObject *__pyx_self, PyOb
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("std", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 26, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("std", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 27, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("faster_numpy.cython.std", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_np_actual), __pyx_ptype_5numpy_ndarray, 1, "np_actual", 0))) __PYX_ERR(0, 26, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_np_target), __pyx_ptype_5numpy_ndarray, 1, "np_target", 0))) __PYX_ERR(0, 26, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_np_actual), __pyx_ptype_5numpy_ndarray, 1, "np_actual", 0))) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_np_target), __pyx_ptype_5numpy_ndarray, 1, "np_target", 0))) __PYX_ERR(0, 27, __pyx_L1_error)
   __pyx_r = __pyx_pf_12faster_numpy_6cython_4std(__pyx_self, __pyx_v_np_actual, __pyx_v_np_target);
 
   /* function exit code */
@@ -2144,16 +2127,16 @@ static PyObject *__pyx_pf_12faster_numpy_6cython_4std(CYTHON_UNUSED PyObject *__
   __pyx_pybuffernd_np_target.rcbuffer = &__pyx_pybuffer_np_target;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_actual.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_actual, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 26, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_actual.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_actual, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 27, __pyx_L1_error)
   }
   __pyx_pybuffernd_np_actual.diminfo[0].strides = __pyx_pybuffernd_np_actual.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_np_actual.diminfo[0].shape = __pyx_pybuffernd_np_actual.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_target.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_target, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 26, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_np_target.rcbuffer->pybuffer, (PyObject*)__pyx_v_np_target, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 27, __pyx_L1_error)
   }
   __pyx_pybuffernd_np_target.diminfo[0].strides = __pyx_pybuffernd_np_target.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_np_target.diminfo[0].shape = __pyx_pybuffernd_np_target.rcbuffer->pybuffer.shape[0];
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_12faster_numpy_6cython_std(__pyx_v_np_actual, __pyx_v_np_target, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_12faster_numpy_6cython_std(__pyx_v_np_actual, __pyx_v_np_target, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4745,7 +4728,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 20, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 218, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(1, 799, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 989, __pyx_L1_error)
@@ -4975,14 +4958,14 @@ PyMODINIT_FUNC PyInit_cython(void)
   /* "faster_numpy/cython.pyx":1
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as np
- * from libc.string cimport memmove
+ * from libc.math cimport sqrt, pow
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "faster_numpy/cython.pyx":26
+  /* "faster_numpy/cython.pyx":27
  *     return result
  * 
  * cpdef double std(np.ndarray[double, ndim=1, mode="c"] np_actual, np.ndarray[double, ndim=1, mode="c"] np_target):             # <<<<<<<<<<<<<<

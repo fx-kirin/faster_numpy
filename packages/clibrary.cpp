@@ -21,37 +21,66 @@ faster_numpy_mean(PyObject *self, PyObject *args)
    dim = PyArray_DIMS(arr1);
    int size = dim[0];
    double sum = 0;
-   for(int x;x<size;x++){
-      double* data = PyArray_GETPTR1(arr1, x);
-      sum += *data;
+   double* data = PyArray_GETPTR1(arr1, 0);
+   for(int x=0;x<size;x++){
+      sum += data[x];
    }
    value = Py_BuildValue("d", sum/size);
+   
    return value;
+}
+
+static PyObject *
+faster_numpy_shift(PyObject *self, PyObject *args)
+{
+   PyArrayObject *arr1;
+   npy_intp *dim;
+   int value;
+    
+   if(!PyArg_ParseTuple(args, "O!i", &PyArray_Type, &arr1, &value)) return NULL;
+
+   dim = PyArray_DIMS(arr1);
+   int size = dim[0];
+   double* data = (double*)PyArray_GETPTR1(arr1, 0);
+   if(value >= 0){
+      memmove(&data[0], &data[value], (size-value) * sizeof(double));
+   }else{
+      memmove(&data[-value], &data[0], (size-value) * sizeof(double));
+   }
+   Py_INCREF(Py_None);
+   return Py_None;
 }
 
 static PyObject *
 faster_numpy_std(PyObject *self, PyObject *args)
 {
-   PyArrayObject *arr1;
+   PyArrayObject *npy_actual, *npy_target;
    npy_intp *dim;
    PyObject *value;
     
-   if(!PyArg_ParseTuple(args, "O!", &PyArray_Type, &arr1)) return NULL;
+   if(!PyArg_ParseTuple(args, "O!O!", &PyArray_Type, &npy_actual, &PyArray_Type, &npy_target)) return NULL;
 
-   dim = PyArray_DIMS(arr1);
+   dim = PyArray_DIMS(npy_actual);
    int size = dim[0];
+   double* data1 = (double*)PyArray_GETPTR1(npy_actual, 0);
+   double* data2 = (double*)PyArray_GETPTR1(npy_target, 0);
    double sum = 0;
-   for(int x;x<size;x++){
-      double* data = PyArray_GETPTR1(arr1, x);
-      sum += *data;
+   for(int i=0;i<size;i++){
+        sum += pow(data1[i] - data2[i], 2);
    }
-   value = Py_BuildValue("d", sum/size);
+   value = Py_BuildValue("d", sqrt(sum/size));
    return value;
 }
 
 static PyMethodDef module_methods[] = {
 	{"mean", (PyCFunction)faster_numpy_mean, METH_VARARGS,
 	 "average"
+   },
+	{"shift", (PyCFunction)faster_numpy_shift, METH_VARARGS,
+	 "shift"
+   },
+	{"std", (PyCFunction)faster_numpy_std, METH_VARARGS,
+	 "std"
    },
 	{NULL}  /* Sentinel */
 };
