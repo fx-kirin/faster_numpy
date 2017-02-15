@@ -42,6 +42,25 @@ class TestFasterNumpy(unittest.TestCase):
                 for i in bm:
                     faster_numpy.clibrary.shift(a, 1)
                     
+    def test_sum(self):
+        a = np.arange(10.0)
+        self.assertEqual(faster_numpy.clibrary.sum(a), np.sum(a))
+        a = np.arange(1000.0)
+        with Benchmarker(100000, width=50) as bench:
+            @bench("numpy.sum")
+            def _(bm):
+                for i in bm:
+                    np.sum(a)
+
+            @bench("faster_numpy.clibrary.sum")
+            def _(bm):
+                for i in bm:
+                    faster_numpy.clibrary.sum(a)
+            @bench("faster_numpy.clibrary.sum partial")
+            def _(bm):
+                for i in bm:
+                    faster_numpy.clibrary.sum(a[0:999])
+                    
     def test_mean(self):
         a = np.arange(10.0)
         mean_value = faster_numpy.cython.mean(a)
@@ -69,22 +88,22 @@ class TestFasterNumpy(unittest.TestCase):
                 for i in bm:
                     faster_numpy.clibrary.mean(a[0:999])
     
-    def test_std(self):
+    def test_variance(self):
         a = np.arange(1000.0)
         b = np.arange(1000.0, 2000.0)
         with Benchmarker(100000, width=50) as bench:
-            @bench("faster_numpy.cython.std")
+            @bench("faster_numpy.cython.variance")
             def _(bm):
                 for i in bm:
-                    faster_numpy.cython.std(a, b)
+                    faster_numpy.cython.variance(a, b)
                     
-            @bench("faster_numpy.clibrary.std")
+            @bench("faster_numpy.clibrary.variance")
             def _(bm):
                 for i in bm:
-                    faster_numpy.clibrary.std(a, b)
+                    faster_numpy.clibrary.variance(a, b)
 
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestFasterNumpy('test_std'))
+    suite.addTest(TestFasterNumpy('test_shift'))
     unittest.TextTestRunner(verbosity=2).run(suite)

@@ -1,3 +1,5 @@
+#!python
+cimport cython
 import numpy as np
 cimport numpy as np
 from libc.math cimport sqrt, pow
@@ -16,6 +18,7 @@ cpdef double mean(np.ndarray[double, ndim=1, mode="c"] np_array):
     cdef int array_size
     cdef double sum_ = 0
     cdef double result
+    cdef int x
     array_size = np_array.shape[0]
     for x in range(array_size):
         sum_ += np_array[x]
@@ -24,11 +27,13 @@ cpdef double mean(np.ndarray[double, ndim=1, mode="c"] np_array):
         
     return result
 
-cpdef double std(np.ndarray[double, ndim=1, mode="c"] np_actual, np.ndarray[double, ndim=1, mode="c"] np_target):
+cpdef variance(np.ndarray[double, ndim=1, mode="c"] np_actual, np.ndarray[double, ndim=1, mode="c"] np_target):
     cdef int array_size1, array_size2
     cdef double sum_ = 0
+    cdef int x
     array_size1 = np_actual.shape[0]
+    cdef np.ndarray[double, ndim=1, mode="c"] value = np.zeros(array_size1)
     for x in range(array_size1):
-        sum_ += pow(np_actual[x] - np_target[x], 2)
+        value[x] = pow(np_actual[x] - np_target[x], 2)
         
-    return sqrt(sum_ / array_size1)
+    return value
