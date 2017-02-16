@@ -3,7 +3,7 @@ from Cython.Build import cythonize
 from setuptools import setup, Extension
 
 ext_modules = [
-    Extension('faster_numpy.cython', sources=['faster_numpy/cython.pyx']),
+    Extension('faster_numpy.cylib', sources=['faster_numpy/cylib.pyx']),
     Extension('faster_numpy.clibrary', sources = ['packages/clibrary.cpp'])
 ]
 
