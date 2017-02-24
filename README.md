@@ -7,3 +7,8 @@ make numpy faster again.
 
 ## Status
 Currently, it only supports 1D array.
+
+## Install
+```
+pip install git+https://github.com/fx-kirin/faster_numpy.git
+```
