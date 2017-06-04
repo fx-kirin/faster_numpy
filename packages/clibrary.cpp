@@ -47,7 +47,6 @@ faster_numpy_mean(PyObject *self, PyObject *args)
    }
    value = Py_BuildValue("d", sum/size);
    
-   Py_INCREF(value);
    return value;
 }
 
@@ -92,7 +91,6 @@ faster_numpy_variance(PyObject *self, PyObject *args)
    for(int i=0;i<size;i++){
         variance[i] += pow(data1[i] - data2[i], 2);
    }
-   Py_INCREF(py_variance);
    return py_variance;
 }
 
