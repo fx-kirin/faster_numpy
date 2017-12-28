@@ -8,6 +8,17 @@
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 #pragma GCC diagnostic error "-fpermissive"
 
+struct module_state {
+    PyObject *error;
+};
+
+#if PY_MAJOR_VERSION >= 3
+#define GETSTATE(m) ((struct module_state*)PyModule_GetState(m))
+#else
+#define GETSTATE(m) (&_state)
+static struct module_state _state;
+#endif
+
 static PyObject *
 faster_numpy_sum(PyObject *self, PyObject *args)
 {
@@ -110,18 +121,58 @@ static PyMethodDef module_methods[] = {
 	{NULL}  /* Sentinel */
 };
 
+#if PY_MAJOR_VERSION >= 3
+static int myextension_traverse(PyObject *m, visitproc visit, void *arg) {
+    Py_VISIT(GETSTATE(m)->error);
+    return 0;
+}
+
+static int myextension_clear(PyObject *m) {
+    Py_CLEAR(GETSTATE(m)->error);
+    return 0;
+}
+
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "clibrary",
+        NULL,
+        sizeof(struct module_state),
+        module_methods,
+        NULL,
+        myextension_traverse,
+        myextension_clear,
+        NULL
+};
+
+
+#endif
+
 #ifndef PyMODINIT_FUNC  /* declarations for DLL import/export */
 #define PyMODINIT_FUNC void
 #endif
+#if PY_MAJOR_VERSION >= 3
 PyMODINIT_FUNC
+PyInit_clibrary(void)
+#else
+#define INITERROR return
+
+void
 initclibrary(void)
+#endif
 {
     PyObject* m;
 
-    m = Py_InitModule3("clibrary", module_methods,
-                       "");
+#if PY_MAJOR_VERSION >= 3
+    m = PyModule_Create(&moduledef);
+#else
+    m = Py_InitModule3("clibrary", module_methods, "");
+#endif
+    
     import_array();
 
     if (m == NULL)
       return;
+#if PY_MAJOR_VERSION >= 3
+    return m;
+#endif
 }
