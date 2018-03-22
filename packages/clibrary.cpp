@@ -156,7 +156,7 @@ PyInit_clibrary(void)
 #else
 #define INITERROR return
 
-void
+PyMODINIT_FUNC
 initclibrary(void)
 #endif
 {
