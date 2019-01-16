@@ -68,6 +68,26 @@ class TestFasterNumpy(unittest.TestCase):
                 for i in bm:
                     faster_numpy.clibrary.sum(a[0:999])
 
+    def test_std(self):
+        a = np.arange(10.0)
+        self.assertEqual(faster_numpy.clibrary.std(a), np.std(a))
+        a = np.arange(1000.0)
+        with Benchmarker(100000, width=50) as bench:
+            @bench("numpy.std")
+            def _(bm):
+                for i in bm:
+                    np.std(a)
+
+            @bench("faster_numpy.clibrary.std")
+            def _(bm):
+                for i in bm:
+                    faster_numpy.clibrary.std(a)
+
+            @bench("bottleneck.nanstd")
+            def _(bm):
+                for i in bm:
+                    bn.nanstd(a)
+
     def test_mean(self):
         a = np.arange(10.0)
         mean_value = faster_numpy.cylib.mean(a)
@@ -84,13 +104,6 @@ class TestFasterNumpy(unittest.TestCase):
             @bench("bottleneck.nanmean")
             def _(bm):
                 for i in bm:
-                    bn.nanmean(a)
-
-            @bench("numpy_stl.mesh.mean")
-            def _(bm):
-                for i in bm:
-                    m = Mesh(a)
-                    __import__('ipdb').set_trace()
                     bn.nanmean(a)
 
             @bench("faster_numpy.cylib.mean")
@@ -126,5 +139,5 @@ class TestFasterNumpy(unittest.TestCase):
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestFasterNumpy('test_mean'))
+    suite.addTest(TestFasterNumpy('test_std'))
     unittest.TextTestRunner(verbosity=2).run(suite)

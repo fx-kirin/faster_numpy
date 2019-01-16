@@ -80,9 +80,10 @@ faster_numpy_std(PyObject *self, PyObject *args)
    double mean = sum/size;
    double dev = 0;
    for(int x=0;x<size;x++){
-      dev = pow(data[x] - mean, 2);
+      dev += pow(data[x] - mean, 2);
    }
    dev /= size;
+   dev = sqrt(dev);
    value = Py_BuildValue("d", dev);
    
    return value;
