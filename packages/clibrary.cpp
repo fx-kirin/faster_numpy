@@ -4,6 +4,7 @@
 #include "numpy/arrayobject.h"
 #include <string.h>
 #include <cmath>
+#include <algorithm>
 
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 #pragma GCC diagnostic error "-fpermissive"
@@ -110,6 +111,29 @@ faster_numpy_shift(PyObject *self, PyObject *args)
    return Py_None;
 }
 
+int compare (const void * a, const void * b)
+{
+  return ( *(int*)a - *(int*)b );
+}
+
+static PyObject *
+faster_numpy_sort(PyObject *self, PyObject *args)
+{
+   PyArrayObject *arr1;
+   npy_intp *dim;
+    
+   if(!PyArg_ParseTuple(args, "O!", &PyArray_Type, &arr1)) return NULL;
+
+   dim = PyArray_DIMS(arr1);
+   int size = dim[0];
+   double* data = (double*) PyArray_GETPTR1(arr1, 0);
+   std::sort(data, data + size);
+
+   
+   Py_INCREF(Py_None);
+   return Py_None;
+}
+
 static PyObject *
 faster_numpy_variance(PyObject *self, PyObject *args)
 {
@@ -142,6 +166,9 @@ static PyMethodDef module_methods[] = {
    },
 	{"std", (PyCFunction)faster_numpy_std, METH_VARARGS,
 	 "standard deviation"
+   },
+	{"sort", (PyCFunction)faster_numpy_sort, METH_VARARGS,
+	 "sort"
    },
 	{"shift", (PyCFunction)faster_numpy_shift, METH_VARARGS,
 	 "shift"

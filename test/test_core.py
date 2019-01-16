@@ -88,6 +88,28 @@ class TestFasterNumpy(unittest.TestCase):
                 for i in bm:
                     bn.nanstd(a)
 
+    def test_sort(self):
+        a = np.random.rand(100)
+        result = a.copy()
+        faster_numpy.clibrary.sort(result)
+        np.testing.assert_equal(result, np.sort(a))
+        a = np.random.rand(1000)
+        with Benchmarker(100000, width=50) as bench:
+            @bench("numpy.sort")
+            def _(bm):
+                for i in bm:
+                    sorted(a)
+                    
+            @bench("numpy.sort")
+            def _(bm):
+                for i in bm:
+                    np.sort(a)
+
+            @bench("faster_numpy.clibrary.sort")
+            def _(bm):
+                for i in bm:
+                    faster_numpy.clibrary.sort(a.copy())
+
     def test_mean(self):
         a = np.arange(10.0)
         mean_value = faster_numpy.cylib.mean(a)
@@ -139,5 +161,5 @@ class TestFasterNumpy(unittest.TestCase):
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestFasterNumpy('test_std'))
+    suite.addTest(TestFasterNumpy('test_sort'))
     unittest.TextTestRunner(verbosity=2).run(suite)
