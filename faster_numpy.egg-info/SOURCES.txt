@@ -1,3 +1,4 @@
+README.md
 setup.py
 faster_numpy/__init__.py
 faster_numpy/cylib.c
