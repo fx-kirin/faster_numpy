@@ -7,7 +7,6 @@ import faster_numpy.clibrary
 import faster_numpy.cylib
 import numpy as np
 from benchmarker import Benchmarker
-from stl.mesh import Mesh
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -98,17 +97,17 @@ class TestFasterNumpy(unittest.TestCase):
             @bench("numpy.sort")
             def _(bm):
                 for i in bm:
-                    sorted(a)
-                    
-            @bench("numpy.sort")
-            def _(bm):
-                for i in bm:
                     np.sort(a)
 
             @bench("faster_numpy.clibrary.sort")
             def _(bm):
                 for i in bm:
                     faster_numpy.clibrary.sort(a.copy())
+
+            @bench("sorted")
+            def _(bm):
+                for i in bm:
+                    sorted(a)
 
     def test_mean(self):
         a = np.arange(10.0)
