@@ -19,6 +19,10 @@ struct module_state {
 static struct module_state _state;
 #endif
 
+#ifndef Py_TYPE
+    #define Py_TYPE(ob) (((PyObject*)(ob))->ob_type)
+#endif
+
 static PyObject *
 faster_numpy_sum(PyObject *self, PyObject *args)
 {
@@ -31,7 +35,7 @@ faster_numpy_sum(PyObject *self, PyObject *args)
    dim = PyArray_DIMS(arr1);
    int size = dim[0];
    double sum = 0;
-   double* data = PyArray_GETPTR1(arr1, 0);
+   double* data = (double*)PyArray_GETPTR1(arr1, 0);
    for(int x=0;x<size;x++){
       sum += data[x];
    }
@@ -52,7 +56,7 @@ faster_numpy_mean(PyObject *self, PyObject *args)
    dim = PyArray_DIMS(arr1);
    int size = dim[0];
    double sum = 0;
-   double* data = PyArray_GETPTR1(arr1, 0);
+   double* data = (double*)PyArray_GETPTR1(arr1, 0);
    for(int x=0;x<size;x++){
       sum += data[x];
    }
@@ -171,7 +175,12 @@ initclibrary(void)
     import_array();
 
     if (m == NULL)
+#if PY_MAJOR_VERSION >= 3
+      return NULL;
+#else
       return;
+#endif
+
 #if PY_MAJOR_VERSION >= 3
     return m;
 #endif
