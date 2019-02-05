@@ -1,9 +1,0 @@
-setup.py
-faster_numpy/__init__.py
-faster_numpy/cylib.c
-faster_numpy.egg-info/PKG-INFO
-faster_numpy.egg-info/SOURCES.txt
-faster_numpy.egg-info/dependency_links.txt
-faster_numpy.egg-info/top_level.txt
-packages/clibrary.cpp
-test/test_core.py

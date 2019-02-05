@@ -4,6 +4,7 @@
 #include "numpy/arrayobject.h"
 #include <string.h>
 #include <cmath>
+#include <algorithm>
 
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 #pragma GCC diagnostic error "-fpermissive"
@@ -35,7 +36,7 @@ faster_numpy_sum(PyObject *self, PyObject *args)
    dim = PyArray_DIMS(arr1);
    int size = dim[0];
    double sum = 0;
-   double* data = (double*)PyArray_GETPTR1(arr1, 0);
+   double* data = (double*) PyArray_GETPTR1(arr1, 0);
    for(int x=0;x<size;x++){
       sum += data[x];
    }
@@ -56,11 +57,39 @@ faster_numpy_mean(PyObject *self, PyObject *args)
    dim = PyArray_DIMS(arr1);
    int size = dim[0];
    double sum = 0;
-   double* data = (double*)PyArray_GETPTR1(arr1, 0);
+   double* data = (double*) PyArray_GETPTR1(arr1, 0);
    for(int x=0;x<size;x++){
       sum += data[x];
    }
    value = Py_BuildValue("d", sum/size);
+   
+   return value;
+}
+
+static PyObject *
+faster_numpy_std(PyObject *self, PyObject *args)
+{
+   PyArrayObject *arr1;
+   npy_intp *dim;
+   PyObject *value;
+    
+   if(!PyArg_ParseTuple(args, "O!", &PyArray_Type, &arr1)) return NULL;
+
+   dim = PyArray_DIMS(arr1);
+   int size = dim[0];
+   double sum = 0;
+   double* data = (double*) PyArray_GETPTR1(arr1, 0);
+   for(int x=0;x<size;x++){
+      sum += data[x];
+   }
+   double mean = sum/size;
+   double dev = 0;
+   for(int x=0;x<size;x++){
+      dev += pow(data[x] - mean, 2);
+   }
+   dev /= size;
+   dev = sqrt(dev);
+   value = Py_BuildValue("d", dev);
    
    return value;
 }
@@ -82,6 +111,29 @@ faster_numpy_shift(PyObject *self, PyObject *args)
    }else{
       memmove(&data[-value], &data[0], (size+value) * sizeof(double));
    }
+   Py_INCREF(Py_None);
+   return Py_None;
+}
+
+int compare (const void * a, const void * b)
+{
+  return ( *(int*)a - *(int*)b );
+}
+
+static PyObject *
+faster_numpy_sort(PyObject *self, PyObject *args)
+{
+   PyArrayObject *arr1;
+   npy_intp *dim;
+    
+   if(!PyArg_ParseTuple(args, "O!", &PyArray_Type, &arr1)) return NULL;
+
+   dim = PyArray_DIMS(arr1);
+   int size = dim[0];
+   double* data = (double*) PyArray_GETPTR1(arr1, 0);
+   std::sort(data, data + size);
+
+   
    Py_INCREF(Py_None);
    return Py_None;
 }
@@ -115,6 +167,12 @@ static PyMethodDef module_methods[] = {
    },
 	{"mean", (PyCFunction)faster_numpy_mean, METH_VARARGS,
 	 "average"
+   },
+	{"std", (PyCFunction)faster_numpy_std, METH_VARARGS,
+	 "standard deviation"
+   },
+	{"sort", (PyCFunction)faster_numpy_sort, METH_VARARGS,
+	 "sort"
    },
 	{"shift", (PyCFunction)faster_numpy_shift, METH_VARARGS,
 	 "shift"
@@ -174,13 +232,13 @@ initclibrary(void)
     
     import_array();
 
+
     if (m == NULL)
 #if PY_MAJOR_VERSION >= 3
-      return NULL;
+        return m;
 #else
-      return;
+        return;
 #endif
-
 #if PY_MAJOR_VERSION >= 3
     return m;
 #endif
