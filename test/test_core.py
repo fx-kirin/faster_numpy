@@ -156,6 +156,9 @@ class TestFasterNumpy(unittest.TestCase):
                 for i in bm:
                     faster_numpy.clibrary.variance(a, b)
 
+    def test_filpped_array(self):
+        pass
+
 
 if __name__ == '__main__':
     #unittest.main()
