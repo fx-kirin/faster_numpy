@@ -36,9 +36,9 @@ faster_numpy_sum(PyObject *self, PyObject *args)
    dim = PyArray_DIMS(arr1);
    int size = dim[0];
    double sum = 0;
-   double* data = (double*) PyArray_GETPTR1(arr1, 0);
    for(int x=0;x<size;x++){
-      sum += data[x];
+      double* v_ptr = (double*) PyArray_GETPTR1(arr1, x);
+      sum += v_ptr[0];
    }
    value = Py_BuildValue("d", sum);
    
@@ -57,9 +57,9 @@ faster_numpy_mean(PyObject *self, PyObject *args)
    dim = PyArray_DIMS(arr1);
    int size = dim[0];
    double sum = 0;
-   double* data = (double*) PyArray_GETPTR1(arr1, 0);
    for(int x=0;x<size;x++){
-      sum += data[x];
+      double* v_ptr = (double*) PyArray_GETPTR1(arr1, x);
+      sum += v_ptr[0];
    }
    value = Py_BuildValue("d", sum/size);
    
@@ -78,14 +78,15 @@ faster_numpy_std(PyObject *self, PyObject *args)
    dim = PyArray_DIMS(arr1);
    int size = dim[0];
    double sum = 0;
-   double* data = (double*) PyArray_GETPTR1(arr1, 0);
    for(int x=0;x<size;x++){
-      sum += data[x];
+      double* v_ptr = (double*) PyArray_GETPTR1(arr1, x);
+      sum += v_ptr[0];
    }
    double mean = sum/size;
    double dev = 0;
    for(int x=0;x<size;x++){
-      dev += pow(data[x] - mean, 2);
+      double* v_ptr = (double*) PyArray_GETPTR1(arr1, x);
+      dev += pow(v_ptr[0] - mean, 2);
    }
    dev /= size;
    dev = sqrt(dev);

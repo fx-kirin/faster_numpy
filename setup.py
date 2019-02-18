@@ -10,7 +10,7 @@ ext_modules = [
 
 setup(
     name='faster_numpy',
-    version="0.1.0",
+    version="0.1.1",
     packages=['faster_numpy'],
     ext_modules=cythonize(ext_modules),
     cmdclass={'build_ext': build_ext},

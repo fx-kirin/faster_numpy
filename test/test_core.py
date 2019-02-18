@@ -116,7 +116,7 @@ class TestFasterNumpy(unittest.TestCase):
         self.assertEqual(faster_numpy.clibrary.mean(a), np.mean(a))
         faster_numpy.clibrary.mean(a)
         a = np.arange(1000.0)
-        with Benchmarker(100000, width=50) as bench:
+        with Benchmarker(500000, width=50) as bench:
             @bench("numpy.mean")
             def _(bm):
                 for i in bm:
@@ -156,12 +156,15 @@ class TestFasterNumpy(unittest.TestCase):
                 for i in bm:
                     faster_numpy.clibrary.variance(a, b)
 
-    def test_filpped_array(self):
-        pass
+    def test_flipped_array(self):
+        a = np.arange(1000.0)
+        flipped = np.flipud(a)
+        assert faster_numpy.mean(flipped[0:5]) == bn.nanmean(flipped[0:5])
 
 
 if __name__ == '__main__':
     #unittest.main()
+    __import__('ipdb').set_trace()
     suite = unittest.TestSuite()
-    suite.addTest(TestFasterNumpy('test_sort'))
+    suite.addTest(TestFasterNumpy('test_flipped_array'))
     unittest.TextTestRunner(verbosity=2).run(suite)
