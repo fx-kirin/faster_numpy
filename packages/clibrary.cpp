@@ -162,6 +162,56 @@ faster_numpy_variance(PyObject *self, PyObject *args)
    return py_variance;
 }
 
+static PyObject *
+faster_numpy_highest(PyObject* self, PyObject *args)
+{
+    PyArrayObject *npy_values;
+    npy_intp *dim;
+
+    if(!PyArg_ParseTuple(args, "O!", &PyArray_Type, &npy_values)) return NULL;
+    dim = PyArray_DIMS(npy_values);
+    int size = dim[0];
+
+    if(size <= 0){
+        PyErr_SetString(PyExc_IOError, "input numpy array size is 0");
+        return NULL;
+    }
+
+	double highest=0;
+    double* values = (double*)PyArray_GETPTR1(npy_values, 0);
+    for(int i=0;i<size;i++){
+        double* value = (double*) PyArray_GETPTR1(npy_values, i);
+        if(value[0] > highest) highest = value[0];
+    }
+	PyObject* return_value = Py_BuildValue("d", highest);
+    return return_value;
+}
+
+static PyObject *
+faster_numpy_lowest(PyObject* self, PyObject *args)
+{
+    PyArrayObject *npy_values;
+    npy_intp *dim;
+
+    if(!PyArg_ParseTuple(args, "O!", &PyArray_Type, &npy_values)) return NULL;
+    dim = PyArray_DIMS(npy_values);
+    int size = dim[0];
+
+    if(size <= 0){
+        PyErr_SetString(PyExc_IOError, "input numpy array size is 0");
+        return NULL;
+    }
+
+	double lowest=0;
+    double* values = (double*)PyArray_GETPTR1(npy_values, 0);
+    for(int i=0;i<size;i++){
+        double* value = (double*) PyArray_GETPTR1(npy_values, i);
+        if(value[0] < lowest || lowest == 0) lowest = value[0];
+    }
+	PyObject* return_value = Py_BuildValue("d", lowest);
+    return return_value;
+}
+
 static PyMethodDef module_methods[] = {
 	{"sum", (PyCFunction)faster_numpy_sum, METH_VARARGS,
 	 "sum"
@@ -180,6 +230,12 @@ static PyMethodDef module_methods[] = {
    },
 	{"variance", (PyCFunction)faster_numpy_variance, METH_VARARGS,
 	 "variance"
+   },
+	{"highest", (PyCFunction)faster_numpy_highest, METH_VARARGS,
+	 "highest"
+   },
+	{"lowest", (PyCFunction)faster_numpy_lowest, METH_VARARGS,
+	 "lowest"
    },
 	{NULL}  /* Sentinel */
 };

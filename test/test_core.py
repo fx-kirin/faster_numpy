@@ -161,10 +161,41 @@ class TestFasterNumpy(unittest.TestCase):
         flipped = np.flipud(a)
         assert faster_numpy.mean(flipped[0:5]) == bn.nanmean(flipped[0:5])
 
+    def test_highest(self):
+        a = np.random.rand(100)
+        assert faster_numpy.highest(a) == np.amax(a)
+        with Benchmarker(100000, width=50) as bench:
+            @bench("faster_numpy.clibrary.highest")
+            def _(bm):
+                for i in bm:
+                    faster_numpy.highest(a)
+
+            @bench("numpy.amax")
+            def _(bm):
+                for i in bm:
+                    np.amax(a)
+        with self.assertRaises(OSError):
+            faster_numpy.highest(a[:0])
+
+    def test_lowest(self):
+        a = np.random.rand(100)
+        assert faster_numpy.lowest(a) == np.amin(a)
+        with Benchmarker(100000, width=50) as bench:
+            @bench("faster_numpy.clibrary.lowest")
+            def _(bm):
+                for i in bm:
+                    faster_numpy.lowest(a)
+
+            @bench("numpy.amin")
+            def _(bm):
+                for i in bm:
+                    np.amin(a)
+        with self.assertRaises(OSError):
+            faster_numpy.highest(a[:0])
 
 if __name__ == '__main__':
     #unittest.main()
-    __import__('ipdb').set_trace()
     suite = unittest.TestSuite()
-    suite.addTest(TestFasterNumpy('test_flipped_array'))
+    suite.addTest(TestFasterNumpy('test_highest'))
+    suite.addTest(TestFasterNumpy('test_lowest'))
     unittest.TextTestRunner(verbosity=2).run(suite)

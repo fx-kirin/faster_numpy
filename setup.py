@@ -1,7 +1,8 @@
-from Cython.Distutils import build_ext
-from Cython.Build import cythonize
-from setuptools import setup, Extension
+from setuptools import Extension, setup
+
 import numpy
+from Cython.Build import cythonize
+from Cython.Distutils import build_ext
 
 ext_modules = [
     Extension('faster_numpy.cylib', sources=['faster_numpy/cylib.pyx'], include_dirs=[numpy.get_include()]),
@@ -10,10 +11,13 @@ ext_modules = [
 
 setup(
     name='faster_numpy',
-    version="0.1.1",
+    version="0.1.2",
     packages=['faster_numpy'],
     ext_modules=cythonize(ext_modules),
     cmdclass={'build_ext': build_ext},
+    package_data={
+        '': ['*.pyx'],
+    },
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Programming Language :: Python',
