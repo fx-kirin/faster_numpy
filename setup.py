@@ -6,7 +6,7 @@ from Cython.Distutils import build_ext
 
 ext_modules = [
     Extension('faster_numpy.cylib', sources=['faster_numpy/cylib.pyx'], include_dirs=[numpy.get_include()]),
-    Extension('faster_numpy.clibrary', sources = ['packages/clibrary.cpp'], include_dirs=[numpy.get_include()])
+    Extension('faster_numpy.clibrary', sources=['packages/clibrary.cpp'], include_dirs=[numpy.get_include()])
 ]
 
 setup(
