@@ -11,12 +11,12 @@ ext_modules = [
 
 setup(
     name='faster_numpy',
-    version="0.1.2",
+    version="0.1.3",
     packages=['faster_numpy'],
     ext_modules=cythonize(ext_modules),
     cmdclass={'build_ext': build_ext},
     package_data={
-        '': ['*.pyx'],
+        '': ['*.pyx', 'pyproject.toml'],
     },
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
